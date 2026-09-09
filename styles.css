@@ -153,6 +153,7 @@
 	--datalization-mood-hue: 60;
 	--datalization-mood-end-hue: 95;
 	--datalization-face-stroke: var(--datalization-ink);
+	--datalization-stroke-width: clamp(2px, 4.2cqw, 5px);
 	position: relative;
 	display: block;
 	box-sizing: border-box;
@@ -203,6 +204,14 @@
 	box-sizing: border-box;
 	overflow: hidden;
 	border: 0;
+	border-radius: 21%;
+	background: var(--datalization-face-stroke);
+}
+
+.datalization-day-face::before {
+	position: absolute;
+	inset: var(--datalization-stroke-width);
+	z-index: 0;
 	border-radius: 18%;
 	background-color: hsl(var(--datalization-mood-hue) 72% 48%);
 	background-image: linear-gradient(
@@ -210,6 +219,7 @@
 		hsl(var(--datalization-mood-hue) 100% 44%) 0%,
 		hsl(var(--datalization-mood-end-hue) 29% 41%) 100%
 	);
+	content: "";
 }
 
 .datalization-day-face::after {
@@ -217,7 +227,7 @@
 	inset: 0;
 	z-index: 4;
 	box-sizing: border-box;
-	border: clamp(2px, 4.2cqw, 5px) solid var(--datalization-face-stroke);
+	border: var(--datalization-stroke-width) solid var(--datalization-face-stroke);
 	border-radius: inherit;
 	content: "";
 	pointer-events: none;
@@ -240,16 +250,19 @@
 	box-shadow: inset 0 0 0 2px var(--interactive-accent);
 }
 
-.datalization-day-empty .datalization-day-face,
-.datalization-day-no-mood .datalization-day-face {
+.datalization-day-empty .datalization-day-face::before,
+.datalization-day-no-mood .datalization-day-face::before {
 	background-color: var(--background-primary);
 	background-image: none;
-	color: var(--text-muted);
 }
 
 .datalization-day-empty,
 .datalization-day-no-mood {
 	--datalization-face-stroke: var(--background-modifier-border);
+}
+
+.datalization-day-empty .datalization-day-face {
+	color: var(--text-muted);
 }
 
 .datalization-day-empty {
@@ -309,7 +322,7 @@
 	height: 48%;
 	border: 0;
 	border-radius: 0;
-	border-top-right-radius: 14% 22%;
+	border-top-right-radius: 18% 30%;
 	background: var(--datalization-sleep);
 	color: var(--datalization-sleep-text) !important;
 	font-size: clamp(11px, 29cqw, 34px);
@@ -319,7 +332,7 @@
 
 .datalization-indicators {
 	position: absolute;
-	right: clamp(-13px, -11cqw, -4px);
+	right: clamp(-8px, -7cqw, -2px);
 	bottom: 5%;
 	z-index: 3;
 	display: flex;
