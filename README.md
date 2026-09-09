@@ -22,7 +22,7 @@ The property names are case-sensitive. Other frontmatter and note content are ig
 
 ## Use
 
-1. Enable **Datalization Personal** in Obsidian's Community plugins settings.
+1. Enable **Datalization** in Obsidian's Community plugins settings.
 2. Select the calendar icon in the ribbon, or run **Datalization: Open monthly dashboard** from the command palette.
 3. Use the arrow controls to move between months. Select a populated day card to open its daily note.
 
@@ -35,7 +35,7 @@ npm install
 npm run build
 ```
 
-Copy `main.js`, `manifest.json`, and `styles.css` into `<vault>/.obsidian/plugins/datalization-personal/`, then reload Obsidian.
+Copy `main.js`, `manifest.json`, and `styles.css` into `<vault>/.obsidian/plugins/datalization/`, then reload Obsidian.
 
 ## License
 

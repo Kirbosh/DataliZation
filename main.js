@@ -27,7 +27,7 @@ var import_obsidian2 = require("obsidian");
 
 // src/views/datalizationView.ts
 var import_obsidian = require("obsidian");
-var DATALIZATION_VIEW_TYPE = "datalization-personal-monthly-dashboard";
+var DATALIZATION_VIEW_TYPE = "datalization-monthly-dashboard";
 var DAILY_NOTE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 var FRONTMATTER_PATTERN = /^---\s*\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
 var DatalizationView = class extends import_obsidian.ItemView {

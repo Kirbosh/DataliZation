@@ -8,7 +8,7 @@ import {
 	setIcon,
 } from "obsidian";
 
-export const DATALIZATION_VIEW_TYPE = "datalization-personal-monthly-dashboard";
+export const DATALIZATION_VIEW_TYPE = "datalization-monthly-dashboard";
 
 interface DatalizationViewState extends Record<string, unknown> {
 	month?: string;
