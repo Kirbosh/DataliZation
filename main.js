@@ -186,6 +186,12 @@ var DatalizationView = class extends import_obsidian.ItemView {
     const sleepPanel = face.createDiv({ cls: "datalization-sleep" });
     sleepPanel.createSpan({ text: record.sleep === null ? "\u2014" : this.formatNumber(record.sleep) });
     const indicators = card.createDiv({ cls: "datalization-indicators" });
+    if (record.mediaConsumed) {
+      indicators.createSpan({
+        cls: "datalization-indicator datalization-indicator-media-consumed",
+        attr: { "aria-label": "Media consumed" }
+      });
+    }
     if (record.mediaMade) {
       indicators.createSpan({
         cls: "datalization-indicator datalization-indicator-media-made",
@@ -196,12 +202,6 @@ var DatalizationView = class extends import_obsidian.ItemView {
       indicators.createSpan({
         cls: "datalization-indicator datalization-indicator-fluctuation",
         attr: { "aria-label": "High fluctuation" }
-      });
-    }
-    if (record.mediaConsumed) {
-      indicators.createSpan({
-        cls: "datalization-indicator datalization-indicator-media-consumed",
-        attr: { "aria-label": "Media consumed" }
       });
     }
     card.addEventListener("click", () => {
@@ -215,15 +215,15 @@ var DatalizationView = class extends import_obsidian.ItemView {
     gradient.createSpan({ cls: "datalization-gradient" });
     gradient.createSpan({ text: "High mood" });
     const flags = legend.createDiv({ cls: "datalization-flag-legend" });
+    const consumed = flags.createSpan({ cls: "datalization-legend-item" });
+    consumed.createSpan({ cls: "datalization-indicator datalization-indicator-media-consumed" });
+    consumed.createSpan({ text: "Media consumed" });
     const made = flags.createSpan({ cls: "datalization-legend-item" });
     made.createSpan({ cls: "datalization-indicator datalization-indicator-media-made" });
     made.createSpan({ text: "Media made" });
     const fluctuation = flags.createSpan({ cls: "datalization-legend-item" });
     fluctuation.createSpan({ cls: "datalization-indicator datalization-indicator-fluctuation" });
     fluctuation.createSpan({ text: "High fluctuation" });
-    const consumed = flags.createSpan({ cls: "datalization-legend-item" });
-    consumed.createSpan({ cls: "datalization-indicator datalization-indicator-media-consumed" });
-    consumed.createSpan({ text: "Media consumed" });
   }
   changeMonth(offset) {
     this.currentMonth = new Date(
@@ -346,4 +346,3 @@ var DatalizationPlugin = class extends import_obsidian2.Plugin {
     this.app.workspace.revealLeaf(leaf);
   }
 };
-

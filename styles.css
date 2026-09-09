@@ -3,9 +3,9 @@
 	--datalization-mood-text: #353559;
 	--datalization-sleep: #202036;
 	--datalization-sleep-text: #5f5fa1;
-	--datalization-fluctuation: #db3d35;
-	--datalization-media-consumed: #58abb3;
-	--datalization-media-made: #259f2e;
+	--datalization-fluctuation: #cf4a3b;
+	--datalization-media-consumed: #56bdc7;
+	--datalization-media-made: #2bb83a;
 	container-name: datalization;
 	container-type: inline-size;
 	padding: 0 !important;
@@ -218,8 +218,8 @@
 	background-color: hsl(var(--datalization-mood-hue) 72% 48%);
 	background-image: linear-gradient(
 		135deg,
-		hsl(var(--datalization-mood-hue) 100% 44%) 0%,
-		hsl(var(--datalization-mood-end-hue) 29% 41%) 100%
+		hsl(var(--datalization-mood-hue) 100% 48%) 0%,
+		hsl(var(--datalization-mood-end-hue) 65% 43%) 100%
 	);
 	content: "";
 }
@@ -309,6 +309,7 @@
 	letter-spacing: -0.06em;
 	line-height: 1;
 	text-align: center;
+	transform: translateX(-2px);
 }
 
 .datalization-value-missing {
@@ -357,17 +358,17 @@
 }
 
 .datalization-indicator-fluctuation {
-	border-color: #942222;
-	background: #b34435;
+	border-color: #9f2424;
+	background: var(--datalization-fluctuation);
 }
 
 .datalization-indicator-media-consumed {
-	border-color: #377b9f;
+	border-color: #327fa8;
 	background: var(--datalization-media-consumed);
 }
 
 .datalization-indicator-media-made {
-	border-color: #124d16;
+	border-color: #166b1e;
 	background: var(--datalization-media-made);
 }
 
@@ -408,7 +409,7 @@
 	width: 110px;
 	height: 8px;
 	border-radius: 999px;
-	background: linear-gradient(90deg, hsl(0 85% 52%), hsl(55 92% 52%), hsl(120 82% 45%));
+	background: linear-gradient(90deg, hsl(0 92% 54%), hsl(55 100% 52%), hsl(120 90% 47%));
 }
 
 .datalization-legend .datalization-indicator {
@@ -486,4 +487,3 @@
 		font-size: 8px;
 	}
 }
-
