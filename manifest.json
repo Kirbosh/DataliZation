@@ -1,10 +1,11 @@
 {
-  "id": "habit-tracker-dashboard",
-  "name": "Habit Tracker Dashboard",
-  "version": "0.3.1",
+  "id": "datalization",
+  "name": "Datalization",
+  "version": "0.1.0",
   "minAppVersion": "1.5.7",
-  "description": "Visualize habit data from your note properties with dashboards, heatmaps, charts, streaks, and statistics.",
-  "author": "Hossein Fard",
-  "authorUrl": "https://github.com/fardm",
+  "description": "A monthly visual dashboard for mood, sleep, expenses, pills, and high-fluctuation days in Obsidian daily notes.",
+  "author": "Kirbosh",
+  "authorUrl": "https://github.com/Kirbosh",
   "isDesktopOnly": false
 }
+
