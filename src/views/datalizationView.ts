@@ -328,7 +328,7 @@ export class DatalizationView extends ItemView {
 
 	private moodHue(mood: number): number {
 		const clamped = Math.min(10, Math.max(1, mood));
-		return Math.round(((clamped - 1) / 9) * 120);
+		return Math.round(((clamped - 1) / 9) * 100);
 	}
 
 	private average(values: Array<number | null>, suffix = ""): string {

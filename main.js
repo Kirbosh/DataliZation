@@ -278,7 +278,7 @@ var DatalizationView = class extends import_obsidian.ItemView {
   }
   moodHue(mood) {
     const clamped = Math.min(10, Math.max(1, mood));
-    return Math.round((clamped - 1) / 9 * 120);
+    return Math.round((clamped - 1) / 9 * 100);
   }
   average(values, suffix = "") {
     const numericValues = values.filter((value) => value !== null);

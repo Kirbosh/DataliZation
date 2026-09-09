@@ -1,7 +1,7 @@
 .datalization-view {
 	--datalization-ink: #20213d;
 	--datalization-sleep: #20213d;
-	--datalization-sleep-text: #8588d8;
+	--datalization-sleep-text: #686ab5;
 	--datalization-fluctuation: #db3d35;
 	--datalization-pill: #4da9d1;
 	padding: 0 !important;
@@ -10,10 +10,10 @@
 
 .datalization-shell {
 	box-sizing: border-box;
-	max-width: 1180px;
+	max-width: 1020px;
 	min-width: 620px;
 	margin: 0 auto;
-	padding: 32px;
+	padding: 20px 24px;
 }
 
 .datalization-header {
@@ -21,20 +21,20 @@
 	align-items: flex-end;
 	justify-content: space-between;
 	gap: 24px;
-	margin-bottom: 22px;
+	margin-bottom: 14px;
 }
 
 .datalization-heading h1 {
 	margin: 0;
 	color: var(--text-normal);
-	font-size: 28px;
+	font-size: 25px;
 	letter-spacing: -0.03em;
 }
 
 .datalization-month-title {
 	margin-top: 3px;
 	color: var(--text-muted);
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .datalization-navigation {
@@ -79,21 +79,21 @@
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 10px;
-	margin-bottom: 22px;
+	margin-bottom: 14px;
 }
 
 .datalization-summary-card {
 	min-width: 0;
-	padding: 14px 16px;
+	padding: 10px 14px;
 	border: 1px solid var(--background-modifier-border);
-	border-radius: 14px;
+	border-radius: 12px;
 	background: var(--background-secondary);
 }
 
 .datalization-summary-value {
 	overflow: hidden;
 	color: var(--text-normal);
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 750;
 	line-height: 1.2;
 	text-overflow: ellipsis;
@@ -101,30 +101,31 @@
 }
 
 .datalization-summary-label {
-	margin-top: 4px;
+	margin-top: 3px;
 	color: var(--text-muted);
-	font-size: 11px;
+	font-size: 10px;
 	font-weight: 650;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
 }
 
 .datalization-calendar {
-	padding: 16px;
+	padding: 12px;
 	border: 1px solid var(--background-modifier-border);
-	border-radius: 18px;
+	border-radius: 16px;
 	background: var(--background-secondary);
 }
 
 .datalization-weekdays,
 .datalization-grid {
 	display: grid;
-	grid-template-columns: repeat(7, minmax(72px, 1fr));
-	gap: 12px;
+	grid-template-columns: repeat(7, minmax(72px, 116px));
+	justify-content: center;
+	gap: 10px;
 }
 
 .datalization-weekdays {
-	margin-bottom: 8px;
+	margin-bottom: 6px;
 }
 
 .datalization-weekday {
@@ -156,14 +157,15 @@
 	align-self: stretch;
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
-	border: 3px solid var(--datalization-ink);
+	overflow: visible;
+	border: 4px solid var(--datalization-ink);
 	border-radius: 27%;
-	background: linear-gradient(
-		145deg,
-		hsl(var(--datalization-mood-hue) 92% 51%),
-		hsl(var(--datalization-mood-hue) 43% 48%)
-	);
+	background-color: hsl(var(--datalization-mood-hue) 72% 48%) !important;
+	background-image: linear-gradient(
+		135deg,
+		hsl(var(--datalization-mood-hue) 100% 50%) 0%,
+		hsl(calc(var(--datalization-mood-hue) + 20) 43% 45%) 100%
+	) !important;
 	box-shadow: none;
 	color: var(--datalization-ink);
 	cursor: pointer;
@@ -171,8 +173,13 @@
 }
 
 .datalization-day:hover {
+	z-index: 2;
 	transform: translateY(-2px);
 	box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+.datalization-day-has-data {
+	z-index: 1;
 }
 
 .datalization-day:focus-visible {
@@ -183,7 +190,8 @@
 .datalization-day-empty,
 .datalization-day-no-mood {
 	border-color: var(--background-modifier-border);
-	background: var(--background-primary);
+	background-color: var(--background-primary) !important;
+	background-image: none !important;
 	color: var(--text-muted);
 	cursor: default;
 }
@@ -204,12 +212,17 @@
 	opacity: 0.72;
 }
 
+.datalization-day-has-data .datalization-date-number {
+	color: var(--datalization-ink);
+}
+
 .datalization-mood {
 	position: absolute;
 	top: 9%;
 	left: 0;
 	width: 100%;
-	font-size: clamp(24px, 4.1vw, 52px);
+	color: var(--datalization-ink) !important;
+	font-size: clamp(24px, 3.6vw, 46px);
 	font-weight: 850;
 	letter-spacing: -0.06em;
 	line-height: 1;
@@ -222,55 +235,52 @@
 
 .datalization-sleep {
 	position: absolute;
-	left: -3px;
-	bottom: -3px;
+	left: 0;
+	bottom: 0;
 	z-index: 2;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 72%;
-	height: 47%;
-	border: 3px solid var(--datalization-ink);
-	border-radius: 0 28% 0 0;
+	height: 50%;
+	border: 0;
+	border-radius: 0 30% 0 clamp(16px, 1.8vw, 28px);
 	background: var(--datalization-sleep);
-	color: var(--datalization-sleep-text);
-	font-size: clamp(20px, 3vw, 40px);
+	color: var(--datalization-sleep-text) !important;
+	font-size: clamp(19px, 2.65vw, 34px);
 	font-weight: 750;
 	line-height: 1;
 }
 
-.datalization-day-no-mood .datalization-sleep {
-	border-color: var(--background-modifier-border);
-}
-
 .datalization-indicators {
 	position: absolute;
-	right: 5%;
-	bottom: 7%;
+	right: -10px;
+	bottom: 5%;
 	z-index: 3;
 	display: flex;
 	flex-direction: column;
-	gap: clamp(3px, 0.6vw, 8px);
+	gap: 3px;
+	pointer-events: none;
 }
 
 .datalization-indicator {
 	display: inline-block;
 	box-sizing: border-box;
-	width: clamp(9px, 1.55vw, 20px);
-	height: clamp(9px, 1.55vw, 20px);
+	width: clamp(20px, 1.55vw, 28px);
+	height: clamp(20px, 1.55vw, 28px);
 	flex: 0 0 auto;
-	border: max(2px, 0.25vw) solid color-mix(in srgb, currentColor 74%, black);
+	border: 3px solid;
 	border-radius: 50%;
-	background: color-mix(in srgb, currentColor 72%, white);
-	color: currentColor;
 }
 
 .datalization-indicator-fluctuation {
-	color: var(--datalization-fluctuation);
+	border-color: #ad2926;
+	background: #c04a3a;
 }
 
 .datalization-indicator-pill {
-	color: var(--datalization-pill);
+	border-color: #2e7fa8;
+	background: #5aaeba;
 }
 
 .datalization-no-data {
@@ -287,7 +297,7 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 20px;
-	margin-top: 14px;
+	margin-top: 10px;
 	color: var(--text-muted);
 	font-size: 11px;
 }
