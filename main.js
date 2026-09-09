@@ -340,4 +340,3 @@ var DatalizationPlugin = class extends import_obsidian2.Plugin {
     this.app.workspace.revealLeaf(leaf);
   }
 };
-

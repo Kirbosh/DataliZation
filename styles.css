@@ -14,7 +14,7 @@
 .datalization-shell {
 	box-sizing: border-box;
 	width: 100%;
-	max-width: 1020px;
+	max-width: 990px;
 	min-width: 0;
 	margin: 0 auto;
 	padding: clamp(8px, 2cqw, 24px);
@@ -127,7 +127,7 @@
 	grid-template-columns: repeat(7, minmax(0, 1fr));
 	gap: clamp(3px, 1cqw, 10px);
 	width: 100%;
-	max-width: 872px;
+	max-width: 844px;
 	margin-inline: auto;
 }
 
@@ -472,4 +472,3 @@
 		font-size: 8px;
 	}
 }
-

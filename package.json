@@ -1,6 +1,6 @@
 {
   "name": "obsidian-datalization",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Monthly daily-note data dashboard for Obsidian",
   "main": "main.js",
   "scripts": {
@@ -31,4 +31,3 @@
     "jalaali-js": "^2.0.0"
   }
 }
-
