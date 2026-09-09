@@ -115,6 +115,7 @@
 
 .datalization-calendar {
 	padding: clamp(6px, 1.25cqw, 12px);
+	padding-bottom: clamp(12px, 3cqw, 30px);
 	border: 1px solid var(--background-modifier-border);
 	border-radius: 16px;
 	background: var(--background-secondary);
@@ -347,7 +348,7 @@
 	width: clamp(10px, 29cqw, 34px);
 	height: clamp(10px, 29cqw, 34px);
 	flex: 0 0 auto;
-	border: clamp(1.5px, 3.4cqw, 4px) solid;
+	border: clamp(2px, 4.5cqw, 5px) solid;
 	border-radius: 50%;
 }
 

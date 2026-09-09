@@ -110,9 +110,7 @@ export class DatalizationView extends ItemView {
 	private renderHeader(container: HTMLElement): void {
 		const header = container.createDiv({ cls: "datalization-header" });
 		const heading = header.createDiv({ cls: "datalization-heading" });
-		heading.createEl("h1", { text: "Datalization" });
-		heading.createEl("div", {
-			cls: "datalization-month-title",
+		heading.createEl("h1", {
 			text: this.currentMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" }),
 		});
 

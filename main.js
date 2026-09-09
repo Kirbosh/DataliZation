@@ -97,9 +97,7 @@ var DatalizationView = class extends import_obsidian.ItemView {
   renderHeader(container) {
     const header = container.createDiv({ cls: "datalization-header" });
     const heading = header.createDiv({ cls: "datalization-heading" });
-    heading.createEl("h1", { text: "Datalization" });
-    heading.createEl("div", {
-      cls: "datalization-month-title",
+    heading.createEl("h1", {
       text: this.currentMonth.toLocaleDateString(void 0, { month: "long", year: "numeric" })
     });
     const navigation = header.createDiv({ cls: "datalization-navigation" });
