@@ -1,7 +1,7 @@
 {
   "id": "datalization",
   "name": "Datalization",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "minAppVersion": "1.5.7",
   "description": "A monthly visual dashboard for mood, sleep, media activity, and high-fluctuation days in Obsidian daily notes.",
   "author": "Kirbosh",
