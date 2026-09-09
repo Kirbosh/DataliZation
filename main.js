@@ -27,7 +27,7 @@ var import_obsidian2 = require("obsidian");
 
 // src/views/datalizationView.ts
 var import_obsidian = require("obsidian");
-var DATALIZATION_VIEW_TYPE = "datalization-monthly-dashboard";
+var DATALIZATION_VIEW_TYPE = "datalization-personal-monthly-dashboard";
 var DAILY_NOTE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 var FRONTMATTER_PATTERN = /^---\s*\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
 var DatalizationView = class extends import_obsidian.ItemView {
@@ -128,9 +128,6 @@ var DatalizationView = class extends import_obsidian.ItemView {
     this.createSummaryCard(summary, "Days logged", String(records.length));
     this.createSummaryCard(summary, "Average mood", this.average(records.map((record) => record.mood)));
     this.createSummaryCard(summary, "Average sleep", this.average(records.map((record) => record.sleep), " h"));
-    const expenses = records.map((record) => record.expenses).filter((value) => value !== null);
-    const totalExpenses = expenses.reduce((total, value) => total + value, 0);
-    this.createSummaryCard(summary, "Total expenses", expenses.length ? this.formatNumber(totalExpenses) : "\u2014");
   }
   createSummaryCard(container, label, value) {
     const card = container.createDiv({ cls: "datalization-summary-card" });
@@ -189,16 +186,22 @@ var DatalizationView = class extends import_obsidian.ItemView {
     const sleepPanel = face.createDiv({ cls: "datalization-sleep" });
     sleepPanel.createSpan({ text: record.sleep === null ? "\u2014" : this.formatNumber(record.sleep) });
     const indicators = card.createDiv({ cls: "datalization-indicators" });
+    if (record.mediaMade) {
+      indicators.createSpan({
+        cls: "datalization-indicator datalization-indicator-media-made",
+        attr: { "aria-label": "Media made" }
+      });
+    }
     if (record.highFluctuation) {
       indicators.createSpan({
         cls: "datalization-indicator datalization-indicator-fluctuation",
         attr: { "aria-label": "High fluctuation" }
       });
     }
-    if (record.pillTaken) {
+    if (record.mediaConsumed) {
       indicators.createSpan({
-        cls: "datalization-indicator datalization-indicator-pill",
-        attr: { "aria-label": "Pill taken" }
+        cls: "datalization-indicator datalization-indicator-media-consumed",
+        attr: { "aria-label": "Media consumed" }
       });
     }
     card.addEventListener("click", () => {
@@ -212,12 +215,15 @@ var DatalizationView = class extends import_obsidian.ItemView {
     gradient.createSpan({ cls: "datalization-gradient" });
     gradient.createSpan({ text: "High mood" });
     const flags = legend.createDiv({ cls: "datalization-flag-legend" });
+    const made = flags.createSpan({ cls: "datalization-legend-item" });
+    made.createSpan({ cls: "datalization-indicator datalization-indicator-media-made" });
+    made.createSpan({ text: "Media made" });
     const fluctuation = flags.createSpan({ cls: "datalization-legend-item" });
     fluctuation.createSpan({ cls: "datalization-indicator datalization-indicator-fluctuation" });
     fluctuation.createSpan({ text: "High fluctuation" });
-    const pill = flags.createSpan({ cls: "datalization-legend-item" });
-    pill.createSpan({ cls: "datalization-indicator datalization-indicator-pill" });
-    pill.createSpan({ text: "Pill taken" });
+    const consumed = flags.createSpan({ cls: "datalization-legend-item" });
+    consumed.createSpan({ cls: "datalization-indicator datalization-indicator-media-consumed" });
+    consumed.createSpan({ text: "Media consumed" });
   }
   changeMonth(offset) {
     this.currentMonth = new Date(
@@ -257,10 +263,10 @@ var DatalizationView = class extends import_obsidian.ItemView {
       return {
         date,
         file,
-        mood: this.toNumber(data["mood"]),
-        sleep: this.toNumber(data["hours slept"]),
-        expenses: this.toNumber(data["expenses"]),
-        pillTaken: this.toBoolean(data["Pill taken"]),
+        mood: this.toNumber(data["Mood"] ?? data["mood"]),
+        sleep: this.toNumber(data["Hours slept"] ?? data["hours slept"]),
+        mediaMade: this.toBoolean(data["Media made"]),
+        mediaConsumed: this.toBoolean(data["Media consumed"]),
         highFluctuation: this.toBoolean(data["High fluctuation"])
       };
     }));
@@ -271,9 +277,9 @@ var DatalizationView = class extends import_obsidian.ItemView {
     if (!record) return `${lines[0]}: no daily note`;
     lines.push(`Mood: ${record.mood ?? "not set"}`);
     lines.push(`Hours slept: ${record.sleep ?? "not set"}`);
-    lines.push(`Expenses: ${record.expenses ?? "not set"}`);
+    if (record.mediaMade) lines.push("Media made");
     if (record.highFluctuation) lines.push("High fluctuation");
-    if (record.pillTaken) lines.push("Pill taken");
+    if (record.mediaConsumed) lines.push("Media consumed");
     return lines.join("\n");
   }
   moodGradient(mood) {

@@ -4,7 +4,8 @@
 	--datalization-sleep: #202036;
 	--datalization-sleep-text: #5f5fa1;
 	--datalization-fluctuation: #db3d35;
-	--datalization-pill: #4da9d1;
+	--datalization-media-consumed: #58abb3;
+	--datalization-media-made: #259f2e;
 	container-name: datalization;
 	container-type: inline-size;
 	padding: 0 !important;
@@ -81,7 +82,7 @@
 
 .datalization-summary {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(3, 1fr);
 	gap: clamp(6px, 1cqw, 10px);
 	margin-bottom: 14px;
 }
@@ -357,9 +358,14 @@
 	background: #b34435;
 }
 
-.datalization-indicator-pill {
+.datalization-indicator-media-consumed {
 	border-color: #377b9f;
-	background: #58abb3;
+	background: var(--datalization-media-consumed);
+}
+
+.datalization-indicator-media-made {
+	border-color: #124d16;
+	background: var(--datalization-media-made);
 }
 
 .datalization-no-data {
@@ -389,6 +395,11 @@
 	gap: 8px;
 }
 
+.datalization-flag-legend {
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
 .datalization-gradient {
 	display: inline-block;
 	width: 110px;
@@ -405,7 +416,7 @@
 
 @container datalization (max-width: 620px) {
 	.datalization-summary {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		margin-bottom: 10px;
 	}
 

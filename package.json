@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-datalization",
-  "version": "0.1.8",
-  "description": "Monthly daily-note data dashboard for Obsidian",
+  "name": "obsidian-datalization-personal",
+  "version": "0.1.0",
+  "description": "Personal monthly daily-note dashboard for Obsidian",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",

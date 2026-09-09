@@ -8,7 +8,7 @@ import {
 	setIcon,
 } from "obsidian";
 
-export const DATALIZATION_VIEW_TYPE = "datalization-monthly-dashboard";
+export const DATALIZATION_VIEW_TYPE = "datalization-personal-monthly-dashboard";
 
 interface DatalizationViewState extends Record<string, unknown> {
 	month?: string;
@@ -18,10 +18,10 @@ interface DailyRecord {
 	date: Date;
 	file: TFile;
 	highFluctuation: boolean;
+	mediaConsumed: boolean;
+	mediaMade: boolean;
 	mood: number | null;
-	pillTaken: boolean;
 	sleep: number | null;
-	expenses: number | null;
 }
 
 const DAILY_NOTE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -145,12 +145,6 @@ export class DatalizationView extends ItemView {
 		this.createSummaryCard(summary, "Days logged", String(records.length));
 		this.createSummaryCard(summary, "Average mood", this.average(records.map((record) => record.mood)));
 		this.createSummaryCard(summary, "Average sleep", this.average(records.map((record) => record.sleep), " h"));
-
-		const expenses = records
-			.map((record) => record.expenses)
-			.filter((value): value is number => value !== null);
-		const totalExpenses = expenses.reduce((total, value) => total + value, 0);
-		this.createSummaryCard(summary, "Total expenses", expenses.length ? this.formatNumber(totalExpenses) : "—");
 	}
 
 	private createSummaryCard(container: HTMLElement, label: string, value: string): void {
@@ -221,16 +215,22 @@ export class DatalizationView extends ItemView {
 		sleepPanel.createSpan({ text: record.sleep === null ? "—" : this.formatNumber(record.sleep) });
 
 		const indicators = card.createDiv({ cls: "datalization-indicators" });
+		if (record.mediaMade) {
+			indicators.createSpan({
+				cls: "datalization-indicator datalization-indicator-media-made",
+				attr: { "aria-label": "Media made" },
+			});
+		}
 		if (record.highFluctuation) {
 			indicators.createSpan({
 				cls: "datalization-indicator datalization-indicator-fluctuation",
 				attr: { "aria-label": "High fluctuation" },
 			});
 		}
-		if (record.pillTaken) {
+		if (record.mediaConsumed) {
 			indicators.createSpan({
-				cls: "datalization-indicator datalization-indicator-pill",
-				attr: { "aria-label": "Pill taken" },
+				cls: "datalization-indicator datalization-indicator-media-consumed",
+				attr: { "aria-label": "Media consumed" },
 			});
 		}
 
@@ -247,12 +247,15 @@ export class DatalizationView extends ItemView {
 		gradient.createSpan({ text: "High mood" });
 
 		const flags = legend.createDiv({ cls: "datalization-flag-legend" });
+		const made = flags.createSpan({ cls: "datalization-legend-item" });
+		made.createSpan({ cls: "datalization-indicator datalization-indicator-media-made" });
+		made.createSpan({ text: "Media made" });
 		const fluctuation = flags.createSpan({ cls: "datalization-legend-item" });
 		fluctuation.createSpan({ cls: "datalization-indicator datalization-indicator-fluctuation" });
 		fluctuation.createSpan({ text: "High fluctuation" });
-		const pill = flags.createSpan({ cls: "datalization-legend-item" });
-		pill.createSpan({ cls: "datalization-indicator datalization-indicator-pill" });
-		pill.createSpan({ text: "Pill taken" });
+		const consumed = flags.createSpan({ cls: "datalization-legend-item" });
+		consumed.createSpan({ cls: "datalization-indicator datalization-indicator-media-consumed" });
+		consumed.createSpan({ text: "Media consumed" });
 	}
 
 	private changeMonth(offset: number): void {
@@ -301,10 +304,10 @@ export class DatalizationView extends ItemView {
 			return {
 				date,
 				file,
-				mood: this.toNumber(data["mood"]),
-				sleep: this.toNumber(data["hours slept"]),
-				expenses: this.toNumber(data["expenses"]),
-				pillTaken: this.toBoolean(data["Pill taken"]),
+				mood: this.toNumber(data["Mood"] ?? data["mood"]),
+				sleep: this.toNumber(data["Hours slept"] ?? data["hours slept"]),
+				mediaMade: this.toBoolean(data["Media made"]),
+				mediaConsumed: this.toBoolean(data["Media consumed"]),
 				highFluctuation: this.toBoolean(data["High fluctuation"]),
 			};
 		}));
@@ -320,9 +323,9 @@ export class DatalizationView extends ItemView {
 
 		lines.push(`Mood: ${record.mood ?? "not set"}`);
 		lines.push(`Hours slept: ${record.sleep ?? "not set"}`);
-		lines.push(`Expenses: ${record.expenses ?? "not set"}`);
+		if (record.mediaMade) lines.push("Media made");
 		if (record.highFluctuation) lines.push("High fluctuation");
-		if (record.pillTaken) lines.push("Pill taken");
+		if (record.mediaConsumed) lines.push("Media consumed");
 		return lines.join("\n");
 	}
 
