@@ -1,41 +1,39 @@
-import { Plugin } from "obsidian";
-import { registerTrackerFileType, cleanupTrackerFileType } from "./handlers/trackerFileHandler";
-import { CreateTrackerModal } from "./views/createTrackerModal";
-import { createTrackerFile } from "./handlers/createTrackerHandler";
+import { Plugin, WorkspaceLeaf } from "obsidian";
+import { DatalizationView, DATALIZATION_VIEW_TYPE } from "./views/datalizationView";
 
-export default class HabitTrackerPlugin extends Plugin {
-	onload() {
-		// Register the .tracker file type and custom view
-		registerTrackerFileType(this);
+export default class DatalizationPlugin extends Plugin {
+	async onload(): Promise<void> {
+		this.registerView(
+			DATALIZATION_VIEW_TYPE,
+			(leaf: WorkspaceLeaf) => new DatalizationView(leaf),
+		);
 
-		// Add ribbon icon for creating new tracker
-		this.addRibbonIcon("gauge", "Create New Habit Tracker", () => {
-			this.showCreateTrackerModal();
+		this.addRibbonIcon("calendar-days", "Open Datalization", () => {
+			void this.activateView();
 		});
 
-		// Add command palette command for creating new tracker
 		this.addCommand({
-			id: "create-new-tracker",
-			name: "Create new habit tracker",
+			id: "open-monthly-dashboard",
+			name: "Open monthly dashboard",
 			callback: () => {
-				this.showCreateTrackerModal();
+				void this.activateView();
 			},
 		});
 	}
 
-	onunload() {
-		// Clean up tracker-related resources
-		cleanupTrackerFileType(this);
+	onunload(): void {
+		this.app.workspace.detachLeavesOfType(DATALIZATION_VIEW_TYPE);
 	}
 
-	/**
-	 * Shows the modal for creating a new tracker file
-	 */
-	showCreateTrackerModal() {
-		new CreateTrackerModal(this.app, (fileName) => {
-			void createTrackerFile(this.app, fileName).catch(error => {
-				console.error("Error creating tracker file:", error);
-			});
-		}).open();
+	private async activateView(): Promise<void> {
+		const existingLeaf = this.app.workspace.getLeavesOfType(DATALIZATION_VIEW_TYPE)[0];
+		const leaf = existingLeaf ?? this.app.workspace.getLeaf("tab");
+
+		if (!existingLeaf) {
+			await leaf.setViewState({ type: DATALIZATION_VIEW_TYPE, active: true });
+		}
+
+		this.app.workspace.revealLeaf(leaf);
 	}
 }
+
