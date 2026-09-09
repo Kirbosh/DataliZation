@@ -200,11 +200,12 @@ export class DatalizationView extends ItemView {
 				title: this.describeDay(date, record),
 			},
 		});
+		const face = card.createDiv({ cls: "datalization-day-face" });
 
-		card.createDiv({ cls: "datalization-date-number", text: String(day) });
+		face.createDiv({ cls: "datalization-date-number", text: String(day) });
 
 		if (!record) {
-			card.createDiv({ cls: "datalization-no-data", text: "—" });
+			face.createDiv({ cls: "datalization-no-data", text: "—" });
 			return;
 		}
 
@@ -212,13 +213,13 @@ export class DatalizationView extends ItemView {
 			const gradient = this.moodGradient(record.mood);
 			card.style.setProperty("--datalization-mood-hue", String(gradient.startHue));
 			card.style.setProperty("--datalization-mood-end-hue", String(gradient.endHue));
-			card.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
+			face.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
 		} else {
 			card.addClass("datalization-day-no-mood");
-			card.createDiv({ cls: "datalization-mood datalization-value-missing", text: "—" });
+			face.createDiv({ cls: "datalization-mood datalization-value-missing", text: "—" });
 		}
 
-		const sleepPanel = card.createDiv({ cls: "datalization-sleep" });
+		const sleepPanel = face.createDiv({ cls: "datalization-sleep" });
 		sleepPanel.createSpan({ text: record.sleep === null ? "—" : this.formatNumber(record.sleep) });
 
 		const indicators = card.createDiv({ cls: "datalization-indicators" });

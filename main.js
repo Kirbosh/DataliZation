@@ -173,21 +173,22 @@ var DatalizationView = class extends import_obsidian.ItemView {
         title: this.describeDay(date, record)
       }
     });
-    card.createDiv({ cls: "datalization-date-number", text: String(day) });
+    const face = card.createDiv({ cls: "datalization-day-face" });
+    face.createDiv({ cls: "datalization-date-number", text: String(day) });
     if (!record) {
-      card.createDiv({ cls: "datalization-no-data", text: "\u2014" });
+      face.createDiv({ cls: "datalization-no-data", text: "\u2014" });
       return;
     }
     if (record.mood !== null) {
       const gradient = this.moodGradient(record.mood);
       card.style.setProperty("--datalization-mood-hue", String(gradient.startHue));
       card.style.setProperty("--datalization-mood-end-hue", String(gradient.endHue));
-      card.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
+      face.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
     } else {
       card.addClass("datalization-day-no-mood");
-      card.createDiv({ cls: "datalization-mood datalization-value-missing", text: "\u2014" });
+      face.createDiv({ cls: "datalization-mood datalization-value-missing", text: "\u2014" });
     }
-    const sleepPanel = card.createDiv({ cls: "datalization-sleep" });
+    const sleepPanel = face.createDiv({ cls: "datalization-sleep" });
     sleepPanel.createSpan({ text: record.sleep === null ? "\u2014" : this.formatNumber(record.sleep) });
     const indicators = card.createDiv({ cls: "datalization-indicators" });
     if (record.highFluctuation) {

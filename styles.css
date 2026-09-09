@@ -5,25 +5,26 @@
 	--datalization-sleep-text: #5f5fa1;
 	--datalization-fluctuation: #db3d35;
 	--datalization-pill: #4da9d1;
+	container-name: datalization;
+	container-type: inline-size;
 	padding: 0 !important;
 	overflow: auto;
 }
 
 .datalization-shell {
 	box-sizing: border-box;
-	position: relative;
-	left: calc((100% - 100vw) / 2);
+	width: 100%;
 	max-width: 1020px;
-	min-width: 620px;
+	min-width: 0;
 	margin: 0 auto;
-	padding: 20px 24px;
+	padding: clamp(8px, 2cqw, 24px);
 }
 
 .datalization-header {
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
-	gap: 24px;
+	gap: clamp(10px, 2cqw, 24px);
 	margin-bottom: 14px;
 }
 
@@ -81,7 +82,7 @@
 .datalization-summary {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 10px;
+	gap: clamp(6px, 1cqw, 10px);
 	margin-bottom: 14px;
 }
 
@@ -113,7 +114,7 @@
 }
 
 .datalization-calendar {
-	padding: 12px;
+	padding: clamp(6px, 1.25cqw, 12px);
 	border: 1px solid var(--background-modifier-border);
 	border-radius: 16px;
 	background: var(--background-secondary);
@@ -122,9 +123,11 @@
 .datalization-weekdays,
 .datalization-grid {
 	display: grid;
-	grid-template-columns: repeat(7, minmax(72px, 116px));
-	justify-content: center;
-	gap: 10px;
+	grid-template-columns: repeat(7, minmax(0, 1fr));
+	gap: clamp(3px, 1cqw, 10px);
+	width: 100%;
+	max-width: 872px;
+	margin-inline: auto;
 }
 
 .datalization-weekdays {
@@ -152,6 +155,7 @@
 	position: relative;
 	display: block;
 	box-sizing: border-box;
+	container-type: inline-size;
 	width: 100% !important;
 	max-width: none;
 	height: auto !important;
@@ -162,23 +166,38 @@
 	margin: 0;
 	padding: 0;
 	overflow: visible;
-	border: 5px solid var(--datalization-ink);
-	border-radius: 18%;
-	background-color: hsl(var(--datalization-mood-hue) 72% 48%) !important;
-	background-image: linear-gradient(
-		135deg,
-		hsl(var(--datalization-mood-hue) 100% 44%) 0%,
-		hsl(var(--datalization-mood-end-hue) 29% 41%) 100%
-	) !important;
+	border: 0 !important;
+	border-radius: 0;
+	background: transparent !important;
 	box-shadow: none;
 	color: var(--datalization-ink);
 	cursor: pointer;
 	isolation: isolate;
+	appearance: none;
+}
+
+.datalization-day-face {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	box-sizing: border-box;
+	overflow: hidden;
+	border: clamp(2px, 4.2cqw, 5px) solid var(--datalization-ink);
+	border-radius: 18%;
+	background-color: hsl(var(--datalization-mood-hue) 72% 48%);
+	background-image: linear-gradient(
+		135deg,
+		hsl(var(--datalization-mood-hue) 100% 44%) 0%,
+		hsl(var(--datalization-mood-end-hue) 29% 41%) 100%
+	);
 }
 
 .datalization-day:hover {
 	z-index: 2;
 	transform: translateY(-2px);
+}
+
+.datalization-day:hover .datalization-day-face {
 	box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
 }
 
@@ -187,16 +206,23 @@
 }
 
 .datalization-day:focus-visible {
-	outline: 3px solid var(--interactive-accent);
-	outline-offset: 2px;
+	outline: none;
 }
 
-.datalization-day-empty,
-.datalization-day-no-mood {
+.datalization-day:focus-visible .datalization-day-face {
+	outline: 3px solid var(--interactive-accent);
+	outline-offset: -3px;
+}
+
+.datalization-day-empty .datalization-day-face,
+.datalization-day-no-mood .datalization-day-face {
 	border-color: var(--background-modifier-border);
-	background-color: var(--background-primary) !important;
-	background-image: none !important;
+	background-color: var(--background-primary);
+	background-image: none;
 	color: var(--text-muted);
+}
+
+.datalization-day-empty {
 	cursor: default;
 }
 
@@ -205,12 +231,16 @@
 	box-shadow: none;
 }
 
+.datalization-day-empty:hover .datalization-day-face {
+	box-shadow: none;
+}
+
 .datalization-date-number {
 	position: absolute;
 	top: 7%;
 	left: 8%;
 	z-index: 3;
-	font-size: clamp(9px, 0.9vw, 12px);
+	font-size: clamp(6px, 10cqw, 12px);
 	font-weight: 750;
 	line-height: 1;
 	opacity: 0.72;
@@ -226,7 +256,7 @@
 	left: 0;
 	width: 100%;
 	color: var(--datalization-mood-text) !important;
-	font-size: clamp(24px, 3.6vw, 46px);
+	font-size: clamp(14px, 40cqw, 46px);
 	font-weight: 850;
 	letter-spacing: -0.06em;
 	line-height: 1;
@@ -250,32 +280,31 @@
 	border: 0;
 	border-radius: 0;
 	border-top-right-radius: 14% 22%;
-	border-bottom-left-radius: 21% 30%;
 	background: var(--datalization-sleep);
 	color: var(--datalization-sleep-text) !important;
-	font-size: clamp(19px, 2.65vw, 34px);
+	font-size: clamp(11px, 29cqw, 34px);
 	font-weight: 750;
 	line-height: 1;
 }
 
 .datalization-indicators {
 	position: absolute;
-	right: -13px;
+	right: clamp(-13px, -11cqw, -4px);
 	bottom: 5%;
 	z-index: 3;
 	display: flex;
 	flex-direction: column;
-	gap: 3px;
+	gap: clamp(1px, 2.5cqw, 3px);
 	pointer-events: none;
 }
 
 .datalization-indicator {
 	display: inline-block;
 	box-sizing: border-box;
-	width: clamp(22px, 1.8vw, 34px);
-	height: clamp(22px, 1.8vw, 34px);
+	width: clamp(10px, 29cqw, 34px);
+	height: clamp(10px, 29cqw, 34px);
 	flex: 0 0 auto;
-	border: 4px solid;
+	border: clamp(1.5px, 3.4cqw, 4px) solid;
 	border-radius: 50%;
 }
 
@@ -294,7 +323,7 @@
 	top: 50%;
 	left: 50%;
 	color: var(--text-faint);
-	font-size: 24px;
+	font-size: clamp(12px, 21cqw, 24px);
 	transform: translate(-50%, -50%);
 }
 
@@ -330,20 +359,73 @@
 	border-width: 2px;
 }
 
-@media (max-width: 800px) {
-	.datalization-shell {
-		padding: 22px;
+@container datalization (max-width: 620px) {
+	.datalization-summary {
+		grid-template-columns: repeat(2, 1fr);
+		margin-bottom: 10px;
 	}
 
-	.datalization-weekdays,
-	.datalization-grid {
-		gap: 8px;
+	.datalization-summary-card {
+		padding: 8px 10px;
+	}
+
+	.datalization-header {
+		margin-bottom: 10px;
+	}
+
+	.datalization-heading h1 {
+		font-size: 21px;
+	}
+
+	.datalization-month-title {
+		font-size: 12px;
+	}
+
+	.datalization-icon-button,
+	.datalization-today-button {
+		height: 32px;
+	}
+
+	.datalization-icon-button {
+		width: 32px;
+	}
+
+	.datalization-today-button {
+		padding-inline: 10px;
+	}
+
+	.datalization-weekday {
+		font-size: clamp(7px, 2.2cqw, 10px);
+		letter-spacing: 0;
+	}
+
+	.datalization-legend {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 6px;
+		font-size: 9px;
+	}
+
+	.datalization-gradient {
+		width: 72px;
 	}
 }
 
-@media (max-width: 680px) {
-	.datalization-summary {
-		grid-template-columns: repeat(2, 1fr);
+@container datalization (max-width: 380px) {
+	.datalization-header {
+		align-items: center;
+	}
+
+	.datalization-heading h1 {
+		font-size: 18px;
+	}
+
+	.datalization-summary-value {
+		font-size: 15px;
+	}
+
+	.datalization-summary-label {
+		font-size: 8px;
 	}
 }
 
