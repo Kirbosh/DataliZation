@@ -280,8 +280,8 @@
 
 .datalization-date-number {
 	position: absolute;
-	top: 7%;
-	left: 8%;
+	top: 10%;
+	left: 11%;
 	z-index: 3;
 	font-size: clamp(6px, 10cqw, 12px);
 	font-weight: 750;
