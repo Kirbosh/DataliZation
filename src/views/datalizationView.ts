@@ -209,8 +209,9 @@ export class DatalizationView extends ItemView {
 		}
 
 		if (record.mood !== null) {
-			const hue = this.moodHue(record.mood);
-			card.style.setProperty("--datalization-mood-hue", String(hue));
+			const gradient = this.moodGradient(record.mood);
+			card.style.setProperty("--datalization-mood-hue", String(gradient.startHue));
+			card.style.setProperty("--datalization-mood-end-hue", String(gradient.endHue));
 			card.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
 		} else {
 			card.addClass("datalization-day-no-mood");
@@ -326,9 +327,14 @@ export class DatalizationView extends ItemView {
 		return lines.join("\n");
 	}
 
-	private moodHue(mood: number): number {
+	private moodGradient(mood: number): { startHue: number; endHue: number } {
 		const clamped = Math.min(10, Math.max(1, mood));
-		return Math.round(((clamped - 1) / 9) * 100);
+		const normalized = (clamped - 1) / 9;
+		const startHue = Math.round(normalized * 86);
+		return {
+			startHue,
+			endHue: Math.round(startHue + normalized * 69),
+		};
 	}
 
 	private average(values: Array<number | null>, suffix = ""): string {

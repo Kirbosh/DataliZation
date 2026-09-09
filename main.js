@@ -179,8 +179,9 @@ var DatalizationView = class extends import_obsidian.ItemView {
       return;
     }
     if (record.mood !== null) {
-      const hue = this.moodHue(record.mood);
-      card.style.setProperty("--datalization-mood-hue", String(hue));
+      const gradient = this.moodGradient(record.mood);
+      card.style.setProperty("--datalization-mood-hue", String(gradient.startHue));
+      card.style.setProperty("--datalization-mood-end-hue", String(gradient.endHue));
       card.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
     } else {
       card.addClass("datalization-day-no-mood");
@@ -276,9 +277,14 @@ var DatalizationView = class extends import_obsidian.ItemView {
     if (record.pillTaken) lines.push("Pill taken");
     return lines.join("\n");
   }
-  moodHue(mood) {
+  moodGradient(mood) {
     const clamped = Math.min(10, Math.max(1, mood));
-    return Math.round((clamped - 1) / 9 * 100);
+    const normalized = (clamped - 1) / 9;
+    const startHue = Math.round(normalized * 86);
+    return {
+      startHue,
+      endHue: Math.round(startHue + normalized * 69)
+    };
   }
   average(values, suffix = "") {
     const numericValues = values.filter((value) => value !== null);
