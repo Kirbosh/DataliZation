@@ -30,6 +30,29 @@ var import_obsidian = require("obsidian");
 var DATALIZATION_VIEW_TYPE = "datalization-monthly-dashboard";
 var DAILY_NOTE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 var FRONTMATTER_PATTERN = /^---\s*\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
+var MOOD_COLORS = [
+  "#b33538",
+  "#9b3318",
+  "#a45834",
+  "#c47a2f",
+  "#cd703c",
+  "#d68858",
+  "#e3a960",
+  "#f4d372",
+  "#d8ea74",
+  "#8cc961",
+  "#5f9932",
+  "#679c64",
+  "#79bc93",
+  "#7dbcc5",
+  "#6a93d1",
+  "#5065dc",
+  "#4b60dd",
+  "#6d4ed7",
+  "#9355e4",
+  "#a34ec6",
+  "#e57b30"
+];
 var DatalizationView = class extends import_obsidian.ItemView {
   constructor(leaf) {
     super(leaf);
@@ -178,9 +201,7 @@ var DatalizationView = class extends import_obsidian.ItemView {
       return;
     }
     if (record.mood !== null) {
-      const gradient = this.moodGradient(record.mood);
-      card.style.setProperty("--datalization-mood-hue", String(gradient.startHue));
-      card.style.setProperty("--datalization-mood-end-hue", String(gradient.endHue));
+      card.style.setProperty("--datalization-mood-color", this.moodColor(record.mood));
       face.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
     } else {
       card.addClass("datalization-day-no-mood");
@@ -207,10 +228,17 @@ var DatalizationView = class extends import_obsidian.ItemView {
   }
   renderLegend(container) {
     const legend = container.createDiv({ cls: "datalization-legend" });
-    const gradient = legend.createDiv({ cls: "datalization-gradient-legend" });
-    gradient.createSpan({ text: "Low mood" });
-    gradient.createSpan({ cls: "datalization-gradient" });
-    gradient.createSpan({ text: "High mood" });
+    const paletteLegend = legend.createDiv({ cls: "datalization-gradient-legend" });
+    paletteLegend.createSpan({ text: "Low mood" });
+    const palette = paletteLegend.createSpan({ cls: "datalization-mood-palette" });
+    MOOD_COLORS.forEach((color, index) => {
+      const swatch = palette.createSpan({
+        cls: "datalization-mood-swatch",
+        attr: { "aria-label": String(index / 2) }
+      });
+      swatch.style.backgroundColor = color;
+    });
+    paletteLegend.createSpan({ text: "High mood" });
     const flags = legend.createDiv({ cls: "datalization-flag-legend" });
     const fluctuation = flags.createSpan({ cls: "datalization-legend-item" });
     fluctuation.createSpan({ cls: "datalization-indicator datalization-indicator-fluctuation" });
@@ -276,14 +304,9 @@ var DatalizationView = class extends import_obsidian.ItemView {
     if (record.pillTaken) lines.push("Pill taken");
     return lines.join("\n");
   }
-  moodGradient(mood) {
-    const clamped = Math.min(10, Math.max(1, mood));
-    const normalized = (clamped - 1) / 9;
-    const startHue = Math.round(normalized * 86);
-    return {
-      startHue,
-      endHue: Math.round(startHue + normalized * 69)
-    };
+  moodColor(mood) {
+    const clamped = Math.min(10, Math.max(0, mood));
+    return MOOD_COLORS[Math.round(clamped * 2)] ?? MOOD_COLORS[0];
   }
   average(values, suffix = "") {
     const numericValues = values.filter((value) => value !== null);

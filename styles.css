@@ -151,8 +151,7 @@
 }
 
 .datalization-day {
-	--datalization-mood-hue: 60;
-	--datalization-mood-end-hue: 95;
+	--datalization-mood-color: #d8ea74;
 	--datalization-face-stroke: var(--datalization-ink);
 	--datalization-stroke-width: clamp(2px, 4.2cqw, 5px);
 	position: relative;
@@ -214,12 +213,7 @@
 	inset: var(--datalization-stroke-width);
 	z-index: 0;
 	border-radius: 18%;
-	background-color: hsl(var(--datalization-mood-hue) 72% 48%);
-	background-image: linear-gradient(
-		135deg,
-		hsl(var(--datalization-mood-hue) 100% 44%) 0%,
-		hsl(var(--datalization-mood-end-hue) 29% 41%) 100%
-	);
+	background: var(--datalization-mood-color);
 	content: "";
 }
 
@@ -389,12 +383,20 @@
 	gap: 8px;
 }
 
-.datalization-gradient {
-	display: inline-block;
-	width: 110px;
+.datalization-mood-palette {
+	display: grid;
+	grid-template-columns: repeat(21, minmax(0, 1fr));
+	width: 126px;
 	height: 8px;
+	overflow: hidden;
 	border-radius: 999px;
-	background: linear-gradient(90deg, hsl(0 85% 52%), hsl(55 92% 52%), hsl(120 82% 45%));
+	background: transparent;
+	box-shadow: inset 0 0 0 1px var(--background-modifier-border);
+}
+
+.datalization-mood-swatch {
+	display: block;
+	min-width: 0;
 }
 
 .datalization-legend .datalization-indicator {
@@ -450,8 +452,8 @@
 		font-size: 9px;
 	}
 
-	.datalization-gradient {
-		width: 72px;
+	.datalization-mood-palette {
+		width: 84px;
 	}
 }
 
