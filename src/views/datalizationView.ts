@@ -232,6 +232,7 @@ export class DatalizationView extends ItemView {
 
 		if (record.mood !== null) {
 			card.style.setProperty("--datalization-mood-color", this.moodColor(record.mood));
+			if (record.mood === 10) card.addClass("datalization-day-rainbow-mood");
 			face.createDiv({ cls: "datalization-mood", text: this.formatNumber(record.mood) });
 		} else {
 			card.addClass("datalization-day-no-mood");
@@ -267,7 +268,7 @@ export class DatalizationView extends ItemView {
 		const palette = paletteLegend.createSpan({ cls: "datalization-mood-palette" });
 		MOOD_COLORS.forEach((color, index) => {
 			const swatch = palette.createSpan({
-				cls: "datalization-mood-swatch",
+				cls: `datalization-mood-swatch${index === 20 ? " datalization-mood-swatch-rainbow" : ""}`,
 				attr: { "aria-label": String(index / 2) },
 			});
 			swatch.style.backgroundColor = color;

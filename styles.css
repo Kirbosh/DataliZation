@@ -152,6 +152,15 @@
 
 .datalization-day {
 	--datalization-mood-color: #d8ea74;
+	--datalization-ten-rainbow: linear-gradient(
+		105deg,
+		#e05558 0 16.666%,
+		#e57f5d 16.666% 33.333%,
+		#f8eb83 33.333% 50%,
+		#a8f873 50% 66.666%,
+		#75adf6 66.666% 83.333%,
+		#7869f5 83.333% 100%
+	);
 	--datalization-face-stroke: var(--datalization-ink);
 	--datalization-stroke-width: clamp(2px, 4.2cqw, 5px);
 	position: relative;
@@ -215,6 +224,11 @@
 	border-radius: 18%;
 	background: var(--datalization-mood-color);
 	content: "";
+}
+
+.datalization-day-rainbow-mood .datalization-day-face::before {
+	background-color: #e05558;
+	background-image: var(--datalization-ten-rainbow);
 }
 
 .datalization-day-face::after {
@@ -397,6 +411,10 @@
 .datalization-mood-swatch {
 	display: block;
 	min-width: 0;
+}
+
+.datalization-mood-swatch-rainbow {
+	background-image: var(--datalization-ten-rainbow);
 }
 
 .datalization-legend .datalization-indicator {
